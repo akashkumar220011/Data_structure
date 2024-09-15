@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Node{
+    public:
+    int data;
+    Node* next;
+    Node(int data){
+        this->data = data;
+        this->next = NULL;
+    }
+    
+    void insertAtHead(Node* &head, int d){
+        Node* temp = new Node(d);
+        temp->next = head;
+        head = temp;
+    }
+    void print(Node* &head){
+        if(head == NULL){
+            cout<<"list is empty"<<endl;
+            return;
+        }
+        Node* temp = head;
+        while(temp!= NULL){
+            cout<<temp->data <<" ";
+            temp = temp -> next;
+        }
+        cout << endl;
+    }
+};
+
+
+int main()
+{
+    Node* head = NULL;
+    Node node(0);  // Create a dummy node object to call methods
+
+    // Insert elements at the head
+    node.insertAtHead(head, 10);
+    node.insertAtHead(head, 20);
+    node.insertAtHead(head, 30);
+
+    // Print the linked list
+    node.print(head);
+    return 0;
+}
