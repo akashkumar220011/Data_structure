@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Node{
+    public:
+    int data;
+    Node* next;
+    Node(int data){
+        this->data = data;
+        this->next = NULL;
+    }
+   
+    void insertAtTail(Node* &tail, int d){
+        Node* temp = new Node(d);
+        tail -> next = temp;
+        tail = temp;
+    }
+    void print(Node* &head){
+        if(head == NULL){
+            cout<<"list is empty"<<endl;
+            return;
+        }
+        Node* temp = head;
+        while(temp!= NULL){
+            cout<<temp->data <<" ";
+            temp = temp -> next;
+        }
+        cout << endl;
+    }
+};
+
+
+int main()
+{
+    Node* head = NULL;
+    Node* tail = NULL;
+    head = new Node(10);
+    tail = head;
+
+    // Insert elements at the tail
+    tail->insertAtTail(tail, 20);  // Insert 20 at the tail
+    tail->insertAtTail(tail, 30); 
+    
+
+    // Print the linked list
+    head->print(head);
+    return 0;
+}
