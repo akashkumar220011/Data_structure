@@ -1,0 +1,83 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+    Node(int value) : data(value), next(nullptr) {}
+};
+
+// Function to get the length of a linked list
+int getLength(Node* head) {
+    int length = 0;
+    while (head != nullptr) {
+        length++;
+        head = head->next;
+    }
+    return length;
+}
+
+// Function to advance the pointer by 'steps'
+Node* advanceBySteps(Node* head, int steps) {
+    while (steps-- > 0 && head != nullptr) {
+        head = head->next;
+    }
+    return head;
+}
+
+// Function to find the intersection point of two linked lists
+Node* getIntersectionNode(Node* head1, Node* head2) {
+    if (head1 == nullptr || head2 == nullptr) return nullptr;
+
+    // Step 1: Get the lengths of both linked lists
+    int len1 = getLength(head1);
+    int len2 = getLength(head2);
+
+    // Step 2: Align the heads of the two lists
+    if (len1 > len2) {
+        head1 = advanceBySteps(head1, len1 - len2);
+    } else {
+        head2 = advanceBySteps(head2, len2 - len1);
+    }
+
+    // Step 3: Traverse both lists together and find the intersection
+    while (head1 != nullptr && head2 != nullptr) {
+        if (head1 == head2) {  // Found the intersection node
+            return head1;
+        }
+        head1 = head1->next;
+        head2 = head2->next;
+    }
+
+    return nullptr;  // No intersection found
+}
+
+int main() {
+    // Create two intersecting linked lists:
+    // List 1: 1 -> 2 -> 3 \
+    //                      6 -> 7 -> nullptr
+    // List 2:       4 -> 5 /
+    
+    Node* intersect = new Node(6);
+    intersect->next = new Node(7);
+
+    Node* head1 = new Node(1);
+    head1->next = new Node(2);
+    head1->next->next = new Node(3);
+    head1->next->next->next = intersect;
+
+    Node* head2 = new Node(4);
+    head2->next = new Node(5);
+    head2->next->next = intersect;
+
+    // Find the intersection node
+    Node* intersection = getIntersectionNode(head1, head2);
+    if (intersection != nullptr) {
+        cout << "Intersection found at node with data: " << intersection->data << endl;
+    } else {
+        cout << "No intersection found." << endl;
+    }
+
+    return 0;
+}
