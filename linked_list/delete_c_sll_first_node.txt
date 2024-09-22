@@ -1,0 +1,72 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+    Node(int value) : data(value), next(nullptr) {}
+};
+
+// Function to delete the first node of a circular singly linked list
+Node* deleteFirstNode(Node* head) {
+    // Step 1: Check if the list is empty
+    if (head == nullptr) {
+        return nullptr;  // The list is already empty
+    }
+
+    // Step 2: Check if the list has only one node
+    if (head->next == head) {
+        delete head;      // Free the memory of the single node
+        return nullptr;   // The list is now empty
+    }
+
+    // Step 3: Find the last node
+    Node* last = head;
+    while (last->next != head) {
+        last = last->next;
+    }
+
+    // Step 4: Update pointers
+    last->next = head->next;  // Last node points to the second node
+    Node* newHead = head->next;  // Update head to the second node
+
+    // Step 5: Delete the first node
+    delete head;  // Free the memory of the first node
+
+    // Step 6: Return the new head
+    return newHead;
+}
+
+// Function to print the circular linked list
+void printCircularList(Node* head) {
+    if (head == nullptr) return;
+
+    Node* temp = head;
+    do {
+        cout << temp->data << " ";
+        temp = temp->next;
+    } while (temp != head);
+    cout << endl;
+}
+
+int main() {
+    // Create a circular linked list: 10 -> 20 -> 30 -> 10
+    Node* head = new Node(10);
+    head->next = new Node(20);
+    head->next->next = new Node(30);
+    head->next->next->next = head;  // Make it circular
+
+    // Print the original list
+    cout << "Original list: ";
+    printCircularList(head);  // Output: 10 20 30
+
+    // Delete the first node
+    head = deleteFirstNode(head);
+
+    // Print the modified list
+    cout << "List after deleting the first node: ";
+    printCircularList(head);  // Output: 20 30
+
+    return 0;
+}
