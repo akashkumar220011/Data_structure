@@ -1,0 +1,62 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+    Node(int value) : data(value), next(nullptr) {}
+};
+
+// Function to insert a node at the end of a circular singly linked list
+Node* insertAtEnd(Node* head, int x) {
+    // Step 1: Create the new node
+    Node* newNode = new Node(x);
+    
+    // Step 2: Check if the list is empty
+    if (head == nullptr) {
+        newNode->next = newNode;  // Circular reference (point to itself)
+        return newNode;           // The new node becomes the head
+    }
+    
+    // Step 3: Traverse to the last node
+    Node* current = head;
+    while (current->next != head) {
+        current = current->next;
+    }
+    
+    // Step 4: Insert the new node at the end
+    current->next = newNode;
+    newNode->next = head;         // Maintain circular structure
+    
+    // Step 5: Return the head node
+    return head;
+}
+
+// Function to print the circular linked list
+void printCircularList(Node* head) {
+    if (head == nullptr) return;
+
+    Node* temp = head;
+    do {
+        cout << temp->data << " ";
+        temp = temp->next;
+    } while (temp != head);
+    cout << endl;
+}
+
+int main() {
+    // Create an empty circular linked list
+    Node* head = nullptr;
+    
+    // Insert nodes at the end of the list
+    head = insertAtEnd(head, 10);
+    head = insertAtEnd(head, 20);
+    head = insertAtEnd(head, 30);
+    head = insertAtEnd(head, 40);
+    
+    // Print the circular linked list
+    printCircularList(head);  // Output: 10 20 30 40
+    
+    return 0;
+}
